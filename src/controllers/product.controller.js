@@ -1,40 +1,27 @@
-import productService from '../services/productService.js';
-import categoryService from '../services/categoryService.js';
-import licenceService from '../services/licenceService.js';
+import productService from '../services/product.service.js';
 
-const getAllProducts = async (req, res) => {  
-    const products = await productService.getProducts();        
-    if(products.length > 0) {
-        res.json({
-            succes: true,
-            data: products
-        })
-    }else {
-        res.json({
-            succes: false,
-            message: products.e
-        }) 
-    } 
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await productService.getAllProducts();              
+        res.json({success: true, data: products});
+    } catch (error) {
+        res.status(500).json({ success: false, data: error.message });
+    }  
 }
+
 const getOneProduct = async (req, res) => {
-    const id = req.params.id
-    const product = await productService.getProduct(id);         
-    if(product.length > 0) {
-        res.json({
-            succes: true,
-            data: product
-        })
-    }else {
-        res.json({
-            succes: false,
-            message: product.e
-        }) 
+    try {
+        const id = req.params.id
+        const product = await productService.getProduct(id);
+        res.json({success: true, data: product});
+    } catch (error) {
+        res.status(404).json({ success: false, data: error.message });
     }
 }
 
 const createNewProduct = async (req, res) => {
     const body = req.body;
-
+    let result;
     if(
         !body.name ||
         !body.description ||
@@ -48,23 +35,18 @@ const createNewProduct = async (req, res) => {
         !body.license ||
         !body.category
     ){
-        res.json({
-            succes: false,
-            message: 'faltan campos'
-        }) 
+        result = { success: false, data: 'faltan campos'}      
     }else {
-        const result = await productService.createProduct(body);
-        res.json({
-            succes: true,
-            message: result
-        })   
+        let response = await productService.createProduct(body);
+        result = { success: true, data: response}
     }       
+    res.json(result)
 };
 
 const updateOneProduct = async (req, res) => {
-    const id = req.params.id;
+    /* const id = req.params.id;
     const body = req.body;
-    const licences = await licenceService.getLicences();
+    const licences = await licencesService.getLicences();
     const lincence_name = licences.data[req.body.collection - 1].licence_name;
     let url_front = '';
     let url_back = '';
@@ -91,10 +73,10 @@ const updateOneProduct = async (req, res) => {
     body.image_front = url_front;
     body.image_back = url_back;
 
-    const result = await productService.editProduct(body, id);
+    const result = await productsService.editProduct(body, id);
 
     if (!result.isError) {
-        const categories = await categoryService.getCategories();
+        const categories = await categoriesService.getCategories();
 
         res.render('message', {
             view: {
@@ -106,7 +88,7 @@ const updateOneProduct = async (req, res) => {
         });
     } else {
         
-    }
+    } */
 };
 const deleteOneProduct = async (req, res) => {
     const id = req.params.id;

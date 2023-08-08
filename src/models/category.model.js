@@ -1,7 +1,7 @@
 import { getConnection } from '../config/dbConfig.js';
-const conn = getConnection();
 
 const getCategories = async () => {
+    const conn = getConnection();
     try {
         const [rows] = await conn.query('SELECT * FROM category;');
         const response = {

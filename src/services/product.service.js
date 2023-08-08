@@ -1,7 +1,12 @@
-import productModel from '../models/productModel.js';
+import productModel from '../models/product.model.js';
 
-const getProducts = async () => {
-    return await productModel.getProducts();
+const getAllProducts = async () => {
+    try {
+        const products = await productModel.getAllProducts();
+        return products; 
+    } catch (error) {
+        throw new Error('Error al obtener los productos');
+    }
 }
 
 const getProductsByLicence = async (licence_id) => {
@@ -9,7 +14,12 @@ const getProductsByLicence = async (licence_id) => {
 }
 
 const getProduct = async (id) => {
-    return await productModel.getProduct({ product_id: id });
+    try {
+        const product = await productModel.getProduct({ product_id: id });
+        return product 
+    } catch (error) {
+        throw new Error('Error al obtener producto');
+    }
 }
 
 const createProduct = async (body) => {           
@@ -51,7 +61,7 @@ const deleteProduct = async (id) => {
 }
 
 export default {
-    getProducts,
+    getAllProducts,
     getProductsByLicence,
     getProduct,
     createProduct,

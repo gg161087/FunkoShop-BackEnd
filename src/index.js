@@ -1,15 +1,9 @@
-import express from 'express';
+import app from './app.js';
 
-import { HOST, PORT } from './config/serverConfig.js';
-import productRoutes from './routes/productRoutes.js';
+const main = () => {
+    app.listen(app.get('port'), () => {
+        console.log(`Server running http://localhost:${app.get('port')}`);
+    });  
+};
 
-const app = express();
-
-app.set('port', PORT);
-
-app.use(express.urlencoded({extended: false}));
-app.use(express.json());
-
-app.use('/api/v1', productRoutes);
-
-app.listen(PORT, () => {console.log(`Server running http://${HOST}:${PORT}`)});
+main();

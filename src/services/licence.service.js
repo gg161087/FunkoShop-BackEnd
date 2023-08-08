@@ -1,4 +1,4 @@
-import licenceModel from '../models/licenceModel.js';
+import licenceModel from '../models/licencesModel.js';
 
 const getLicences = async () => {
     return await licenceModel.getLicences();

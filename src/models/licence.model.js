@@ -1,7 +1,7 @@
-import { getConnection } from '../config/dbConfig.js';
-const conn = getConnection();
+import { getConnection } from '../config.js';
 
 const getLicences = async () => {
+    const conn = getConnection();
     try {
         const [rows] = await conn.query('SELECT * FROM licence;');
         const response = {
@@ -19,6 +19,7 @@ const getLicences = async () => {
 };
 
 const getLicence = async (id) => {
+    const conn = getConnection();
     try {
         const [rows] = await conn.query('SELECT * FROM licence WHERE licence_id = ?', id);
         const response = {
